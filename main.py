@@ -359,6 +359,7 @@ def fire(field):
             # регистрация попадания
             if field[coordinates_list_number][2] == False:
                 print('Промах')
+                field[coordinates_list_number][3] = True
                 break
             else:
                 print('Попадание')
@@ -418,8 +419,8 @@ def fire_test():
 
             # регистрация попадания
             if field[coordinates_list_number][2] == False:
-                field[coordinates_list_number][3] = True
                 print('Промах')
+                field[coordinates_list_number][3] = True
                 break
             else:
                 print('Попадание')
