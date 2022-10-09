@@ -17,4 +17,11 @@ def create_field(field_size):
 
 
 def create_field_test():
-    pass
+    s = 4
+    for i in range(0, s):
+        for j in range(0, s):
+            field1.append([i, j, False, False])
+            field2.append([i, j, False, False])
+    print(field1)
+    print()
+    print(field2)
