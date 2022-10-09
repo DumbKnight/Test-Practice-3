@@ -16,6 +16,7 @@ field2 = []
 # field
 
 # ships
+test_ships = [['рыбацкая лодка', 4, 1], ['плот', 2, 2]]
 #ships = [['Линкор', 4, 1], ['Крейсер', 3, 2], ['Эсминец', 2, 3]]
 ships = [['Линкор', 4, 1], ['Крейсер', 3, 1], ['Эсминец', 2, 1]]
 # ships
@@ -182,17 +183,15 @@ def place_ships(field, ships):
 
 
 def place_ships_test():
-    test_ships = [['рыбацкая лодка', 4, 1], ['плот', 2, 2]]
     # флот
-    fleet = []
     ships_count = 0
     for i in range(0, len(test_ships)):
         for j in range(0, test_ships[i][2]):
             ships_count += 1
     print(ships_count)
     for i in range(0, ships_count):
-        fleet.append([])
-    print(fleet)
+        fleet1.append([])
+    print(fleet1)
     ships_count = 0
     sequence_coordinates_list = []
     # флот
@@ -290,7 +289,7 @@ def place_ships_test():
                                 # размещение
                                 if can_be_fully_placed == True:
                                     sequence_coordinates_list = []
-                                    fleet[ships_count].append(test_ships[i][0])
+                                    fleet1[ships_count].append(test_ships[i][0])
 
                                     field1[coord_list_number][2] = True
                                     sequence_coord_list_number = coord_list_number + offset
@@ -304,9 +303,13 @@ def place_ships_test():
 
                                         sequence_coordinates_list.append(sequence_coord_list_number)
 
-                                    fleet[ships_count].append(sequence_coordinates_list)
+                                    fleet1[ships_count].append(sequence_coordinates_list)
+                                    new_list = []
+                                    for k in range(0, len(sequence_coordinates_list)):
+                                        new_list.append(sequence_coordinates_list[k])
+                                    fleet1[ships_count].append(new_list)
                                     print(field1)
-                                    print(fleet)
+                                    print(fleet1)
                                     ships_count += 1
                                     break
                                 # размещение
@@ -427,14 +430,25 @@ def fire_test():
                         if fleet1[i][1][j] == coordinates_list_number:
                             ship_number = i
                             is_found = True
-                            fleet1[i][1].pop(j)
+                            print(fleet1)
+                            fleet1[i][1].remove(coordinates_list_number)
                             print(fleet1)
                             break
                     if is_found == True:
                         break
 
                 if len(fleet1[ship_number][1]) == 0:
-                    print('Корабль', ships[ship_number][0], '(длина', ships[ship_number][1], ') был уничтожен')
+                    print('Корабль', test_ships[ship_number][0], '(длина', test_ships[ship_number][1], ') был уничтожен')
                 # уничтожение корабля
                 continue
             # регистрация попадания
+
+
+
+
+
+
+
+create_field(field_size)
+place_ships_test()
+fire_test()
