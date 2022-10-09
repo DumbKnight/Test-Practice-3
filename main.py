@@ -44,6 +44,23 @@ def create_field_test():
 
 
 def place_ships(field, ships):
+    # флот
+    if field == field1:
+        fleet = fleet1
+    else:
+        fleet = fleet2
+
+    fleet_size = 0
+    for i in range(0, len(ships)):
+        for j in range(0, ships[i][2]):
+            fleet_size += 1
+
+    for i in range(0, fleet_size):
+        fleet.append([])
+
+    fleet_size = 0
+    sequence_coordinates_list = []
+    # флот
     for i in range(0, len(ships)):
         for j in range(0, ships[i][2]):
             print('Местоположение носа корабля', ships[i][0], '(длина', ships[i][1], '):', end=' ')
@@ -138,18 +155,31 @@ def place_ships(field, ships):
 
                                 # размещение
                                 if can_be_fully_placed == True:
+                                    sequence_coordinates_list = []
+                                    fleet[fleet_size].append(ships[i][0])
+
                                     field[coordinates_list_number][2] = True
                                     sequence_coordinates_list_number = coordinates_list_number + offset
                                     field[sequence_coordinates_list_number][2] = True
+
+                                    sequence_coordinates_list.append(coordinates_list_number)
+                                    sequence_coordinates_list.append(sequence_coordinates_list_number)
                                     for k in range(1, ships[i][1] - 1):
                                         sequence_coordinates_list_number += offset
                                         field[sequence_coordinates_list_number][2] = True
+
+                                        sequence_coordinates_list.append(sequence_coordinates_list_number)
+
+                                    fleet[fleet_size].append(sequence_coordinates_list)
+                                    fleet_size += 1
+
                                     break
                                 # размещение
                             else:
                                 continue
                     # проверка на размещение всего корабля
                     break
+
 
 def place_ships_test():
     test_ships = [['рыбацкая лодка', 4, 1], ['плот', 2, 2]]
