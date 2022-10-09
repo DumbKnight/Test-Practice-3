@@ -172,8 +172,11 @@ def place_ships(field, ships):
                                         sequence_coordinates_list.append(sequence_coordinates_list_number)
 
                                     fleet[fleet_size].append(sequence_coordinates_list)
+                                    hull_list =[]
+                                    for k in range(0, len(sequence_coordinates_list)):
+                                        hull_list.append(sequence_coordinates_list[k])
+                                    fleet1[fleet_size].append(hull_list)
                                     fleet_size += 1
-
                                     break
                                 # размещение
                             else:
@@ -369,7 +372,7 @@ def fire(field):
                         if fleet[i][1][j] == coordinates_list_number:
                             ship_number = i
                             is_found = True
-                            fleet[i][1].pop(j)
+                            fleet[i][1].remove(coordinates_list_number)
                             break
                     if is_found == True:
                         break
@@ -442,13 +445,3 @@ def fire_test():
                 # уничтожение корабля
                 continue
             # регистрация попадания
-
-
-
-
-
-
-
-create_field(field_size)
-place_ships_test()
-fire_test()
