@@ -315,8 +315,67 @@ def place_ships_test():
                     # проверка на размещение всего корабля
                     break
 
-def fire():
-    pass
+def fire(field):
+    if field == field1:
+        fleet = fleet1
+    else:
+        fleet = fleet2
+
+    while True:
+        print('Координаты обстрела:', end=' ')
+
+        # проверка на читаемость
+        try:
+            string = input()
+            coordinates = string.split()
+            coordinates = list(map(int, coordinates))
+        except ValueError:
+            print('Координаты нечитаемые')
+            print('Введите координаты ещё раз:', end=' ')
+            continue
+        # проверка на читаемость
+        else:
+            # проверка возможности попадания
+            coordinates_list_number = -1
+            can_be_hitted = False
+            for i in range(0, len(field)):
+                if coordinates[0] == field[i][0] and coordinates[1] == field[i][1]:
+                    if field[i][3] == False:
+                        coordinates_list_number = i
+                        can_be_hitted = True
+
+            if can_be_hitted == False:
+                print('Координаты не могут быть обстреляны')
+                print('Введите координаты ещё раз:', end=' ')
+                continue
+            # проверка возможности попадания
+
+            # регистрация попадания
+            if field[coordinates_list_number][2] == False:
+                print('Промах')
+                break
+            else:
+                print('Попадание')
+                field[coordinates_list_number][3] = True
+
+                # уничтожение корабля
+                ship_number = -1
+                is_found = False
+                for i in range(0, len(fleet)):
+                    for j in range(0, len(fleet[i][1])):
+                        if fleet[i][1][j] == coordinates_list_number:
+                            ship_number = i
+                            is_found = True
+                            fleet[i][1].pop(j)
+                            break
+                    if is_found == True:
+                        break
+
+                if len(fleet[ship_number][1]) == 0:
+                    print('Корабль', ships[ship_number][0], '(длина', ships[ship_number][1], ') был уничтожен')
+                # уничтожение корабля
+                continue
+            # регистрация попадания
 
 def fire_test():
     field = field1
