@@ -13,7 +13,10 @@ field2 = []
 # field
 
 def create_field(field_size):
-    pass
+    for i in range(0, field_size):
+        for j in range(0, field_size):
+            field1.append([i, j, False, False])
+            field2.append([i, j, False, False])
 
 
 def create_field_test():
