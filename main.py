@@ -12,8 +12,9 @@ field1 = []
 field2 = []
 # field
 
-# fleet
-# fleet
+# ships
+ships = [['Линкор', 4, 1], ['Крейсер', 3, 2], ['Эсминец', 2, 3]]
+# ships
 
 def create_field(field_size):
     for i in range(0, field_size):
@@ -32,8 +33,114 @@ def create_field_test():
     print()
     print(field2)
 
-def place_ships():
-    pass
+def place_ships(field, ships):
+    for i in range(0, len(ships)):
+        for j in range(0, ships[i][2]):
+            print('Местоположение носа корабля', ships[i][0], '(длина', ships[i][1], '):', end=' ')
+            while True:
+                # проверка на читаемость
+                try:
+                    string = input()
+                    coordinates = string.split()
+                    coordinates = list(map(int, coordinates))
+                    print(coordinates)
+                except ValueError:
+                    print('Координаты нечитаемые')
+                    print('Введите координаты ещё раз:', end=' ')
+                    continue
+                # проверка на читаемость
+                else:
+                    # проверка на размещение носа
+                    coordinates_list_number = -1
+                    can_be_placed = False
+                    for k in range(0, len(field)):
+                        if coordinates[0] == field[k][0] and coordinates[1] == field[k][1]:
+                            if field[k][2] == False:
+                                coordinates_list_number = k
+                                can_be_placed = True
+
+                    if can_be_placed == False:
+                        print('Корабль не может быть размещен')
+                        print('Введите координаты ещё раз:', end=' ')
+                        continue
+                    # проверка на размещение носа
+
+                    # проверка на размещение всего корабля
+                    if ships[i][1] > 1:
+                        while True:
+                            print('Выберите направление носа:')
+                            print('N - вверх')
+                            print('S - вниз')
+                            print('W - влево')
+                            print('E - вправо')
+
+                            string = input()
+                            ship_coordinates = []
+                            offset = 0
+                            if string == 'N' or string == 'S' or string == 'W' or string == 'E':
+                                if string == 'N':
+                                    offset = -1
+                                elif string == 'S':
+                                    offset = 1
+                                elif string == 'W':
+                                    offset = -field_size
+                                elif string == 'E':
+                                    offset = field_size
+
+                                ship_coordinates.append(coordinates)
+
+                                # первое смещение
+                                sequence_coordinates_list_number = coordinates_list_number + offset
+                                new_coordinates = []
+                                new_coordinates.append(field[sequence_coordinates_list_number][0])
+                                new_coordinates.append(field[sequence_coordinates_list_number][1])
+                                ship_coordinates.append(new_coordinates)
+                                if abs(ship_coordinates[0][0] - ship_coordinates[1][0]) > 1 or abs(
+                                        ship_coordinates[0][1] - ship_coordinates[1][1]) > 1:
+                                    print('Корабль выходит за границы поля битвы')
+                                    continue
+                                if field[sequence_coordinates_list_number][2] == True:
+                                    print('Корабль врезается в другой корабль')
+                                    continue
+                                # первое смещение
+
+                                # последующие смещения
+                                mistake = False
+                                for k in range(1, ships[i][1] - 1):
+                                    sequence_coordinates_list_number += offset
+                                    new_coordinates = []
+                                    new_coordinates.append(field[sequence_coordinates_list_number][0])
+                                    new_coordinates.append(field[sequence_coordinates_list_number][1])
+                                    ship_coordinates.append(new_coordinates)
+                                    if abs(ship_coordinates[k][0] - ship_coordinates[k + 1][0]) > 1 or abs(
+                                            ship_coordinates[k][1] - ship_coordinates[k + 1][1]) > 1:
+                                        print('Корабль выходит за границы поля битвы')
+                                        mistake = True
+                                        break
+                                    if field[sequence_coordinates_list_number][2] == True:
+                                        print('Корабль врезается в другой корабль')
+                                        mistake = True
+                                        break
+                                if mistake == True:
+                                    continue
+                                # последующие смещения
+
+                                can_be_fully_placed = True
+
+                                # размещение
+                                if can_be_fully_placed == True:
+                                    field[coordinates_list_number][2] = True
+                                    sequence_coordinates_list_number = coordinates_list_number + offset
+                                    field[sequence_coordinates_list_number][2] = True
+                                    for k in range(1, ships[i][1] - 1):
+                                        sequence_coordinates_list_number += offset
+                                        field[sequence_coordinates_list_number][2] = True
+                                    break
+                                # размещение
+                            else:
+                                continue
+                    # проверка на размещение всего корабля
+                    break
 
 def place_ships_test():
     test_ships = [['рыбацкая лодка', 4, 1], ['плот', 2, 2]]
@@ -143,6 +250,3 @@ def place_ships_test():
                                 continue
                     # проверка на размещение всего корабля
                     break
-
-create_field(field_size)
-place_ships_test()
