@@ -1,9 +1,12 @@
-# Линкор - 1 (4)
-# Крейсер - 2 (3)
-# Эсминец - 3 (2)
-
 # структура списка:
 # x, y, есть ли корабль, есть ли попадание
+
+# обозначения:
+# # - неизвестное поле
+# * - попадание по кораблю
+# ~ - попадание в воду
+# = - корабль
+# % - уничтоженный корабль
 
 # field
 field_size = 4
@@ -13,8 +16,14 @@ field2 = []
 # field
 
 # ships
-ships = [['Линкор', 4, 1], ['Крейсер', 3, 2], ['Эсминец', 2, 3]]
+#ships = [['Линкор', 4, 1], ['Крейсер', 3, 2], ['Эсминец', 2, 3]]
+ships = [['Линкор', 4, 1], ['Крейсер', 3, 1], ['Эсминец', 2, 1]]
 # ships
+
+# fleet
+fleet1 = []
+fleet2 = []
+# fleet
 
 def create_field(field_size):
     for i in range(0, field_size):
@@ -33,6 +42,7 @@ def create_field_test():
     print()
     print(field2)
 
+
 def place_ships(field, ships):
     for i in range(0, len(ships)):
         for j in range(0, ships[i][2]):
@@ -43,7 +53,6 @@ def place_ships(field, ships):
                     string = input()
                     coordinates = string.split()
                     coordinates = list(map(int, coordinates))
-                    print(coordinates)
                 except ValueError:
                     print('Координаты нечитаемые')
                     print('Введите координаты ещё раз:', end=' ')
@@ -144,6 +153,19 @@ def place_ships(field, ships):
 
 def place_ships_test():
     test_ships = [['рыбацкая лодка', 4, 1], ['плот', 2, 2]]
+    # флот
+    fleet = []
+    ships_count = 0
+    for i in range(0, len(test_ships)):
+        for j in range(0, test_ships[i][2]):
+            ships_count += 1
+    print(ships_count)
+    for i in range(0, ships_count):
+        fleet.append([])
+    print(fleet)
+    ships_count = 0
+    sequence_coordinates_list = []
+    # флот
     for i in range(0, len(test_ships)):
         for j in range(0, test_ships[i][2]):
             print('Местоположение носа корабля', test_ships[i][0], '(длина', test_ships[i][1], '):', end=' ')
@@ -237,13 +259,25 @@ def place_ships_test():
 
                                 # размещение
                                 if can_be_fully_placed == True:
+                                    sequence_coordinates_list = []
+                                    fleet[ships_count].append(test_ships[i][0])
+
                                     field1[coord_list_number][2] = True
                                     sequence_coord_list_number = coord_list_number + offset
                                     field1[sequence_coord_list_number][2] = True
+
+                                    sequence_coordinates_list.append(coord_list_number)
+                                    sequence_coordinates_list.append(sequence_coord_list_number)
                                     for k in range(1, test_ships[i][1] - 1):
                                         sequence_coord_list_number += offset
                                         field1[sequence_coord_list_number][2] = True
+
+                                        sequence_coordinates_list.append(sequence_coord_list_number)
+
+                                    fleet[ships_count].append(sequence_coordinates_list)
                                     print(field1)
+                                    print(fleet)
+                                    ships_count += 1
                                     break
                                 # размещение
                             else:
