@@ -66,7 +66,7 @@ def place_ships(field, ships):
     # флот
     for i in range(0, len(ships)):
         for j in range(0, ships[i][2]):
-            print('Местоположение носа корабля', ships[i][0], '(длина', ships[i][1], '):', end=' ')
+            print('Местоположение носа корабля класса <%s> (длина %d):' % (ships[i][0], ships[i][1]), end=' ')
             while True:
                 # проверка на читаемость
                 try:
@@ -74,7 +74,7 @@ def place_ships(field, ships):
                     coordinates = string.split()
                     coordinates = list(map(int, coordinates))
                 except ValueError:
-                    print('Координаты нечитаемые')
+                    print('Координаты нечитаемы')
                     print('Введите координаты ещё раз:', end=' ')
                     continue
                 # проверка на читаемость
@@ -97,7 +97,7 @@ def place_ships(field, ships):
                     # проверка на размещение всего корабля
                     if ships[i][1] > 1:
                         while True:
-                            print('Выберите направление носа:')
+                            print('Выберите направление кормы:')
                             print('N - вверх')
                             print('S - вниз')
                             print('W - влево')
@@ -177,8 +177,11 @@ def place_ships(field, ships):
                                     hull_list =[]
                                     for k in range(0, len(sequence_coordinates_list)):
                                         hull_list.append(sequence_coordinates_list[k])
-                                    fleet1[fleet_size].append(hull_list)
+                                    fleet[fleet_size].append(hull_list)
                                     fleet_size += 1
+
+                                    print()
+                                    print_field(field, True, False)
                                     break
                                 # размещение
                             else:
@@ -211,7 +214,7 @@ def place_ships_test():
                     coords = list(map(int, coords))
                     print(coords)
                 except ValueError:
-                    print('Координаты нечитаемые')
+                    print('Координаты нечитаемы')
                     print('Введите координаты ещё раз:', end=' ')
                     continue
                 # проверка на читаемость
@@ -338,7 +341,7 @@ def fire(field):
             coordinates = string.split()
             coordinates = list(map(int, coordinates))
         except ValueError:
-            print('Координаты нечитаемые')
+            print('Координаты нечитаемы')
             print('Введите координаты ещё раз:', end=' ')
             continue
         # проверка на читаемость
@@ -385,12 +388,15 @@ def fire(field):
                     for i in range(0, len(ships)):
                         if fleet[ship_number][0] == ships[i][0]:
                             length = ships[i][1]
-                    print('Корабль', fleet[ship_number][0], '(длина', length, ') был уничтожен')
+                    print('Корабль класса <%s> (длина %d) был уничтожен' % (fleet[ship_number][0], length))
 
                 destroy_number = 0
                 for i in range(0, len(fleet)):
                     if len(fleet[i][1]) == 0:
                         destroy_number += 1
+
+                print()
+                print_field(field, False, False)
 
                 if destroy_number == len(fleet):
                     game_end(field)
@@ -411,7 +417,7 @@ def fire_test():
             coordinates = string.split()
             coordinates = list(map(int, coordinates))
         except ValueError:
-            print('Координаты нечитаемые')
+            print('Координаты нечитаемы')
             print('Введите координаты ещё раз:', end=' ')
             continue
         # проверка на читаемость
@@ -492,7 +498,6 @@ def print_field(field, is_placement, is_end):
                     print('~', end=' ')
             print()
     else:
-
         if is_end == False:
             for i in range(0, int(len(field) / field_size)):
                 for j in range(0, int(len(field) / field_size)):
@@ -503,7 +508,7 @@ def print_field(field, is_placement, is_end):
                                 for l in range(0, len(fleet[k][2])):
                                     if fleet[k][2][l] == print_number:
                                         # уничтоженный корабль
-                                        if len(fleet[k][1]) > 0:
+                                        if len(fleet[k][1]) >= 1:
                                             print('*', end=' ')
                                         else:
                                             print('%', end=' ')
@@ -542,6 +547,7 @@ def print_field(field, is_placement, is_end):
                     print_number += field_size
                 print_number = print_number - pow(field_size, 2) + 1
                 print()
+    print()
 
 
 def print_field_test():
@@ -626,7 +632,9 @@ def game_process():
             continue
         create_field(field_size)
         break
+    print()
     print_field(field1, False, False)
+    print()
     while True:
         print('Выберите тип флота:')
         print('1 - экспедиционная группа (1 крейсер, 2 эсминца)')
@@ -643,19 +651,24 @@ def game_process():
             break
         else:
             continue
+    print()
     print('Игрок 1 расставляет корабли')
+    print()
     place_ships(field1, ships)
     print('Игрок 2 расставляет корабли')
+    print()
     place_ships(field2, ships)
-    sequence = 2
+    sequence = 1
     while True:
         if sequence == 1:
             print('Ход игрока 1')
+            print()
             fire(field2)
             sequence = 2
             continue
         else:
             print('Ход игрока 2')
+            print()
             fire(field1)
             sequence = 1
             continue
@@ -711,8 +724,29 @@ def game_process_test():
 
 
 def game_end(field):
+    if field == field1:
+        print('Игрок 2 победил')
+        print('Поле игрока 2:')
+        print()
+        print_field(field2, False, True)
+        print()
+        print()
+        print('Поле игрока 1:')
+        print()
+        print_field(field1, False, True)
+        exit()
+    else:
+        print('Игрок 1 победил')
+        print('Поле игрока 1:')
+        print()
+        print_field(field1, False, True)
+        print()
+        print()
+        print('Поле игрока 2:')
+        print()
+        print_field(field2, False, True)
+        exit()
     pass
 
 
-def game_end_test():
-    pass
+game_process()
