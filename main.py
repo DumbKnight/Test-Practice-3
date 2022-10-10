@@ -449,9 +449,73 @@ def fire_test():
             # регистрация попадания
 
 
+def print_field(field, is_placement, is_end):
+    print_number = 0
 
-def print_field():
-    pass
+    if field == field1:
+        fleet = fleet1
+    else:
+        fleet = fleet2
+
+    if is_placement == True:
+        for i in range(0, int(len(field) / field_size)):
+            for j in range(0, int(len(field) / field_size)):
+                if field[j * field_size + i][2] == True:
+                    print('=', end=' ')
+                else:
+                    print('~', end=' ')
+            print()
+    else:
+
+        if is_end == False:
+            for i in range(0, int(len(field) / field_size)):
+                for j in range(0, int(len(field) / field_size)):
+                    if field[j * field_size + i][3] == True:
+                        if field[j * field_size + i][2] == True:
+                            # в какой корабль попадание
+                            for k in range(0, len(fleet)):
+                                for l in range(0, len(fleet[k][2])):
+                                    if fleet[k][2][l] == print_number:
+                                        # уничтоженный корабль
+                                        if len(fleet[k][1]) > 0:
+                                            print('*', end=' ')
+                                        else:
+                                            print('%', end=' ')
+                                        # уничтоженный корабль
+                            # в какой корабль попадание
+                        else:
+                            print('~', end=' ')  # V
+                    else:
+                        print('#', end=' ')  # V
+                    print_number += field_size
+                print_number = print_number - pow(field_size, 2) + 1
+                print()
+        else:
+            for i in range(0, int(len(field) / field_size)):
+                for j in range(0, int(len(field) / field_size)):
+                    if field[j * field_size + i][3] == True:
+                        if field[j * field_size + i][2] == True:
+                            # в какой корабль попадание
+                            for k in range(0, len(fleet)):
+                                for l in range(0, len(fleet[k][2])):
+                                    if fleet[k][2][l] == print_number:
+                                        # уничтоженный корабль
+                                        if len(fleet[k][1]) > 0:
+                                            print('*', end=' ')
+                                        else:
+                                            print('%', end=' ')
+                                        # уничтоженный корабль
+                            # в какой корабль попадание
+                        else:
+                            print('~', end=' ')
+                    else:
+                        if field[j * field_size + i][2] == True:
+                            print('=', end=' ')
+                        else:
+                            print('~', end=' ')
+                    print_number += field_size
+                print_number = print_number - pow(field_size, 2) + 1
+                print()
 
 
 def print_field_test():
