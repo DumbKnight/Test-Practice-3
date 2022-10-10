@@ -380,8 +380,20 @@ def fire(field):
                     if is_found == True:
                         break
 
+                length = 0
                 if len(fleet[ship_number][1]) == 0:
-                    print('Корабль', ships[ship_number][0], '(длина', ships[ship_number][1], ') был уничтожен')
+                    for i in range(0, len(ships)):
+                        if fleet[ship_number][0] == ships[i][0]:
+                            length = ships[i][1]
+                    print('Корабль', fleet[ship_number][0], '(длина', length, ') был уничтожен')
+
+                destroy_number = 0
+                for i in range(0, len(fleet)):
+                    if len(fleet[i][1]) == 0:
+                        destroy_number += 1
+
+                if destroy_number == len(fleet):
+                    game_end(field)
                 # уничтожение корабля
                 continue
             # регистрация попадания
