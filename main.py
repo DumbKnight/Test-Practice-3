@@ -381,6 +381,9 @@ def fire(field):
                         break
 
                 if len(fleet[ship_number][1]) == 0:
+                    for i in range(0, len(ships)):
+                        if ships[i][2] > 1:
+                            ship_number = ship_number - ships[i][2] + 1
                     print('Корабль', ships[ship_number][0], '(длина', ships[ship_number][1], ') был уничтожен')
                 # уничтожение корабля
                 continue
