@@ -616,6 +616,59 @@ def print_field_test():
     print(field1)
 
 
+def game_process():
+    pass
+
+
+def game_process_test():
+    while True:
+        print('Выберите размер поля битвы:', end=' ')
+        global field_size
+        field_size = int(input())
+        if field_size < 4:
+            print('Поле битвы слишком мало')
+            continue
+        print(field_size)
+        create_field(field_size)
+        print(field1)
+        break
+    print_field(field1, False, False)
+    while True:
+        print('Выберите тип флота:')
+        print('1 - экспедиционная группа (1 крейсер, 2 эсминца)')
+        print('2 - боевая группа (1 линкор, 2 крейсера, 3 эсминца)')
+        fleet_type = int(input())
+        global ships
+        if fleet_type == 1:
+            print('Выбрана экспедиционная группа')
+            ships = ships1
+            break
+        elif fleet_type == 2:
+            print('Выбрана боевая группа')
+            ships = ships2
+            break
+        else:
+            continue
+    print('Игрок 1 расставляет корабли')
+    place_ships(field1, ships)
+    print('Игрок 2 расставляет корабли')
+    #place_ships(field2, ships)
+    print(ships)
+    print(fleet1)
+    sequence = 2
+    while True:
+        if sequence == 1:
+            print('Ход игрока 1')
+            fire(field2)
+            sequence = 2
+            continue
+        else:
+            print('Ход игрока 2')
+            fire(field1)
+            sequence = 1
+            continue
+
+
 def game_end(field):
     pass
 
