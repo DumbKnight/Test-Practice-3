@@ -9,7 +9,7 @@
 # % - уничтоженный корабль
 
 # field
-field_size = 4
+field_size = 0
 
 field1 = []
 field2 = []
@@ -17,8 +17,10 @@ field2 = []
 
 # ships
 test_ships = [['рыбацкая лодка', 4, 1], ['плот', 2, 2]]
-#ships = [['Линкор', 4, 1], ['Крейсер', 3, 2], ['Эсминец', 2, 3]]
-ships = [['Линкор', 4, 1], ['Крейсер', 3, 1], ['Эсминец', 2, 1]]
+ships1 = [['Крейсер', 3, 1], ['Эсминец', 2, 2]]
+ships2 = [['Линкор', 4, 1], ['Крейсер', 3, 2], ['Эсминец', 2, 3]]
+
+ships = []
 # ships
 
 # fleet
@@ -443,6 +445,9 @@ def fire_test():
                         break
 
                 if len(fleet1[ship_number][1]) == 0:
+                    for i in range(0, len(test_ships)):
+                        if test_ships[i][2] > 1:
+                            ship_number = ship_number - test_ships[i][2] + 1
                     print('Корабль', test_ships[ship_number][0], '(длина', test_ships[ship_number][1], ') был уничтожен')
                 # уничтожение корабля
                 continue
